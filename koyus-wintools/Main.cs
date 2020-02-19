@@ -12,7 +12,7 @@ namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 0;
+        int version = 1;
         Process p;
         string temppath;
         bool koyuspaceinstalled = false;
@@ -41,7 +41,7 @@ namespace koyus_wintools
                     new WebClient().DownloadFile("https://updates.koyu.space/wintools/wintools.zip", Path.Combine(temppath + "\\wintools.zip"));
                     ZipFile.ExtractToDirectory(Path.Combine(temppath + "\\wintools.zip"), temppath);
                     //Ask the user before running WinTools
-                    if (MessageBox.Show("The WinTools are now downloaded. Do you want to open them?\nWarning: This will kill all process and enter the WinTools mode.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
+                    if (MessageBox.Show("The WinTools are now downloaded. Do you want to open them?\n\nWarning: This will kill all processes and enter the WinTools mode.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
                         this.WindowState = FormWindowState.Normal;
                         // Kill explorer so we get a clean working environment
                         Process.Start("taskkill", "/IM explorer.exe /f");
@@ -73,8 +73,8 @@ namespace koyus_wintools
                     if (MessageBox.Show("New version available. Download now?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         Process.Start("https://updates.koyu.space/wintools/wintools.exe");
-                        Environment.Exit(0);
                     }
+                    Environment.Exit(0);
                 }
             }
             catch
