@@ -12,10 +12,11 @@ namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 1;
+        int version = 2;
         Process p;
         string temppath;
         bool koyuspaceinstalled = false;
+        bool mctdownloaded = false;
 
         public Main()
         {
@@ -23,9 +24,9 @@ namespace koyus_wintools
             Rectangle r = Screen.PrimaryScreen.WorkingArea;
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(0, Screen.PrimaryScreen.Bounds.Height - this.Height);
-            this.TopMost = true;
             this.WindowState = FormWindowState.Minimized;
-            if (Directory.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\koyu.space")))
+            label1.Text = DateTime.Now.ToString("HH:mm");
+            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Programs\\koyuspace-desktop\\koyu.space.exe")))
             {
                 koyuspaceinstalled = true;
                 progressBar1.Value = 100;
@@ -41,8 +42,8 @@ namespace koyus_wintools
                     new WebClient().DownloadFile("https://updates.koyu.space/wintools/wintools.zip", Path.Combine(temppath + "\\wintools.zip"));
                     ZipFile.ExtractToDirectory(Path.Combine(temppath + "\\wintools.zip"), temppath);
                     //Ask the user before running WinTools
-                    if (MessageBox.Show("The WinTools are now downloaded. Do you want to open them?\n\nWarning: This will kill all processes and enter the WinTools mode.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes) {
-                        this.WindowState = FormWindowState.Normal;
+                    if (MessageBox.Show("The WinTools are now downloaded. Do you want to open them?\n\nWarning: This will kill all processes and enter the WinTools mode.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
                         // Kill explorer so we get a clean working environment
                         Process.Start("taskkill", "/IM explorer.exe /f");
                         // Also kill every browser as the user may have downloaded the file from the internet
@@ -50,9 +51,14 @@ namespace koyus_wintools
                         Process.Start("taskkill", "/IM firefox.exe /f");
                         Process.Start("taskkill", "/IM chrome.exe /f");
                         Thread.Sleep(500);
-                        p = Process.Start("explorer.exe", Path.Combine(temppath + "\\koyu's WinTools"));
-                        Thread.Sleep(500);
-                    } else
+                        this.WindowState = FormWindowState.Maximized;
+                        ChangeVisibility(false);
+                        this.Visible = true;
+                        Thread.Sleep(1000);
+                        ChangeVisibility(true);
+                        timer2.Enabled = true;
+                    }
+                    else
                     {
                         // Clean up if the user says no
                         try
@@ -129,12 +135,17 @@ namespace koyus_wintools
 
         private void Completed(object sender, AsyncCompletedEventArgs e)
         {
-            Process.Start(Path.Combine(temppath + "\\desktop.exe"));
+            try
+            {
+                koyuspaceinstalled = true;
+                Process.Start(Path.Combine(temppath + "\\desktop.exe"));
+            }
+            catch { }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Process.Start("iexplore.exe", "https://duckduckgo.com/html");
+            Process.Start("https://duckduckgo.com");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -144,7 +155,12 @@ namespace koyus_wintools
 
         private void button4_Click(object sender, EventArgs e)
         {
-            this.Close();
+            timer2.Enabled = false;
+            if (MessageBox.Show("Logout to desktop?", "Logout", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                this.Close();
+            }
+            timer2.Enabled = true;
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -180,21 +196,36 @@ namespace koyus_wintools
                 process.StartInfo.UseShellExecute = true;
                 process.Start();
                 Environment.Exit(0);
-            } catch { }
+            }
+            catch { }
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            WebClient client = new WebClient();
-            Uri uri = new Uri("https://go.microsoft.com/fwlink/?LinkId=691209");
-            client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed2);
-            client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback2);
-            client.DownloadFileAsync(uri, Path.Combine(temppath + "\\MediaCreationTool.exe"));
+            if (!mctdownloaded)
+            {
+                WebClient client = new WebClient();
+                Uri uri = new Uri("https://go.microsoft.com/fwlink/?LinkId=691209");
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed2);
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback2);
+                client.DownloadFileAsync(uri, Path.Combine(temppath + "\\MediaCreationTool.exe"));
+            } else
+            {
+                try
+                {
+                    Process.Start(Path.Combine(temppath + "\\MediaCreationTool.exe"));
+                }
+                catch { }
+            }
         }
 
         private void Completed2(object sender, AsyncCompletedEventArgs e)
         {
-            Process.Start(Path.Combine(temppath + "\\MediaCreationTool.exe"));
+            try
+            {
+                Process.Start(Path.Combine(temppath + "\\MediaCreationTool.exe"));
+            }
+            catch { }
         }
 
         private void DownloadProgressCallback2(object sender, DownloadProgressChangedEventArgs e)
@@ -217,6 +248,48 @@ namespace koyus_wintools
             Thread.Sleep(500);
             Process.Start("shutdown", "/r /t 0");
             Environment.Exit(0);
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            label1.Text = DateTime.Now.ToString("HH:mm");
+            try
+            {
+                new WebClient().DownloadString("https://koyu.space");
+                this.Show();
+            }
+            catch
+            {
+                this.Hide();
+                label1.Enabled = true;
+            }
+        }
+
+        void ChangeVisibility(bool visible)
+        {
+            foreach (Control c in this.Controls)
+            {
+                c.Visible = visible;
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Process.Start("regedit.exe");
+            }
+            catch { }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Process.Start("notepad.exe");
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            this.SendToBack();
         }
     }
 }
