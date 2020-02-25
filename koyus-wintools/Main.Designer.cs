@@ -54,6 +54,9 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.button10 = new System.Windows.Forms.Button();
+            this.progressBar3 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -312,6 +315,37 @@
             this.label10.TabIndex = 21;
             this.label10.Text = "WinTools";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(100, 67);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(47, 39);
+            this.label11.TabIndex = 23;
+            this.label11.Text = "Disable\r\nbroken\r\nUpdates";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // button10
+            // 
+            this.button10.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button10.BackgroundImage")));
+            this.button10.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button10.FlatAppearance.BorderSize = 0;
+            this.button10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button10.Location = new System.Drawing.Point(102, 12);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(48, 48);
+            this.button10.TabIndex = 22;
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
+            // 
+            // progressBar3
+            // 
+            this.progressBar3.Location = new System.Drawing.Point(100, 54);
+            this.progressBar3.Name = "progressBar3";
+            this.progressBar3.Size = new System.Drawing.Size(48, 10);
+            this.progressBar3.Step = 1;
+            this.progressBar3.TabIndex = 24;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -319,6 +353,9 @@
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(958, 588);
+            this.Controls.Add(this.progressBar3);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.button10);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -381,6 +418,9 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button button10;
+        private System.Windows.Forms.ProgressBar progressBar3;
     }
 }
 

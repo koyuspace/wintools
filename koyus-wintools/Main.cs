@@ -12,11 +12,12 @@ namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 2;
+        int version = 3;
         Process p;
         string temppath;
         bool koyuspaceinstalled = false;
         bool mctdownloaded = false;
+        bool dutdownloaded = false;
 
         public Main()
         {
@@ -137,8 +138,8 @@ namespace koyus_wintools
         {
             try
             {
-                koyuspaceinstalled = true;
                 Process.Start(Path.Combine(temppath + "\\desktop.exe"));
+                koyuspaceinstalled = true;
             }
             catch { }
         }
@@ -223,6 +224,7 @@ namespace koyus_wintools
         {
             try
             {
+                mctdownloaded = true;
                 Process.Start(Path.Combine(temppath + "\\MediaCreationTool.exe"));
             }
             catch { }
@@ -290,6 +292,41 @@ namespace koyus_wintools
         private void timer2_Tick(object sender, EventArgs e)
         {
             this.SendToBack();
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            if (!dutdownloaded)
+            {
+                WebClient client = new WebClient();
+                Uri uri = new Uri("https://updates.koyu.space/wintools/wushowhide.diagcab");
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed3);
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback3);
+                client.DownloadFileAsync(uri, Path.Combine(temppath + "\\wushowhide.diagcab"));
+            }
+            else
+            {
+                try
+                {
+                    Process.Start(Path.Combine(temppath + "\\wushowhide.diagcab"));
+                }
+                catch { }
+            }
+        }
+
+        private void DownloadProgressCallback3(object sender, DownloadProgressChangedEventArgs e)
+        {
+            progressBar3.Value = e.ProgressPercentage;
+        }
+
+        private void Completed3(object sender, AsyncCompletedEventArgs e)
+        {
+            try
+            {
+                dutdownloaded = true;
+                Process.Start(Path.Combine(temppath + "\\wushowhide.diagcab"));
+            }
+            catch { }
         }
     }
 }
