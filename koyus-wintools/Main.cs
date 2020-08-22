@@ -111,7 +111,7 @@ namespace koyus_wintools
             if (!koyuspaceinstalled)
             {
                 WebClient client = new WebClient();
-                Uri uri = new Uri("https://koyu.keybase.pub/desktop.exe");
+                Uri uri = new Uri("https://updates.koyu.space/desktop/desktop.exe");
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
                 client.DownloadFileAsync(uri, Path.Combine(temppath + "\\desktop.exe"));
