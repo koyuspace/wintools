@@ -12,7 +12,7 @@ namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 3;
+        int version = 4;
         Process p;
         string temppath;
         bool koyuspaceinstalled = false;
