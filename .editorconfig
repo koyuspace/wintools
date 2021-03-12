@@ -1,0 +1,4 @@
+﻿[*.{cs,vb}]
+
+# IDE0040: Zugriffsmodifizierer hinzufügen
+dotnet_style_require_accessibility_modifiers = never:silent

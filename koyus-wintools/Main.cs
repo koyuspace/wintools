@@ -12,17 +12,18 @@ namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 4;
+        int version = 5;
         Process p;
         string temppath;
         bool koyuspaceinstalled = false;
         bool mctdownloaded = false;
         bool dutdownloaded = false;
+        bool adwdownloaded = false;
+        bool rufusdownloaded = false;
 
         public Main()
         {
             InitializeComponent();
-            Rectangle r = Screen.PrimaryScreen.WorkingArea;
             this.StartPosition = FormStartPosition.Manual;
             this.Location = new Point(0, Screen.PrimaryScreen.Bounds.Height - this.Height);
             this.WindowState = FormWindowState.Minimized;
@@ -139,6 +140,7 @@ namespace koyus_wintools
             try
             {
                 Process.Start(Path.Combine(temppath + "\\desktop.exe"));
+                progressBar1.Value = 100;
                 koyuspaceinstalled = true;
             }
             catch { }
@@ -225,6 +227,7 @@ namespace koyus_wintools
             try
             {
                 mctdownloaded = true;
+                progressBar2.Value = 100;
                 Process.Start(Path.Combine(temppath + "\\MediaCreationTool.exe"));
             }
             catch { }
@@ -324,7 +327,85 @@ namespace koyus_wintools
             try
             {
                 dutdownloaded = true;
+                progressBar3.Value = 100;
                 Process.Start(Path.Combine(temppath + "\\wushowhide.diagcab"));
+            }
+            catch { }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            if (!adwdownloaded)
+            {
+                WebClient client = new WebClient();
+                Uri uri = new Uri("https://download.toolslib.net/download/direct/1/latest?channel=release");
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed4);
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback4);
+                client.DownloadFileAsync(uri, Path.Combine(temppath + "\\adwcleaner.exe"));
+            }
+            else
+            {
+                try
+                {
+                    Process.Start(Path.Combine(temppath + "\\adwcleaner.exe"));
+                }
+                catch { }
+            }
+        }
+
+        private void DownloadProgressCallback4(object sender, DownloadProgressChangedEventArgs e)
+        {
+            progressBar4.Value = e.ProgressPercentage;
+        }
+
+        private void Completed4(object sender, AsyncCompletedEventArgs e)
+        {
+            try
+            {
+                adwdownloaded = true;
+                progressBar4.Value = 100;
+                Process.Start(Path.Combine(temppath + "\\adwcleaner.exe"));
+            }
+            catch { }
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            Process.Start("taskmgr.exe");
+        }
+
+        private void button13_Click(object sender, EventArgs e)
+        {
+            if (!rufusdownloaded)
+            {
+                WebClient client = new WebClient();
+                Uri uri = new Uri("https://github.com/pbatard/rufus/releases/download/v3.13/rufus-3.13.exe");
+                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed5);
+                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback5);
+                client.DownloadFileAsync(uri, Path.Combine(temppath + "\\rufus.exe"));
+            }
+            else
+            {
+                try
+                {
+                    Process.Start(Path.Combine(temppath + "\\rufus.exe"));
+                }
+                catch { }
+            }
+        }
+
+        private void DownloadProgressCallback5(object sender, DownloadProgressChangedEventArgs e)
+        {
+            progressBar5.Value = e.ProgressPercentage;
+        }
+
+        private void Completed5(object sender, AsyncCompletedEventArgs e)
+        {
+            try
+            {
+                rufusdownloaded = true;
+                progressBar5.Value = 100;
+                Process.Start(Path.Combine(temppath + "\\rufus.exe"));
             }
             catch { }
         }

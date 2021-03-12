@@ -57,6 +57,14 @@
             this.label11 = new System.Windows.Forms.Label();
             this.button10 = new System.Windows.Forms.Button();
             this.progressBar3 = new System.Windows.Forms.ProgressBar();
+            this.label12 = new System.Windows.Forms.Label();
+            this.button11 = new System.Windows.Forms.Button();
+            this.progressBar4 = new System.Windows.Forms.ProgressBar();
+            this.label13 = new System.Windows.Forms.Label();
+            this.button12 = new System.Windows.Forms.Button();
+            this.label14 = new System.Windows.Forms.Label();
+            this.button13 = new System.Windows.Forms.Button();
+            this.progressBar5 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -82,7 +90,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Black;
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(858, 557);
+            this.label1.Location = new System.Drawing.Point(448, 977);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(28, 13);
             this.label1.TabIndex = 10;
@@ -127,7 +135,7 @@
             this.button7.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button7.BackgroundImage")));
             this.button7.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Location = new System.Drawing.Point(892, 551);
+            this.button7.Location = new System.Drawing.Point(482, 971);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(24, 24);
             this.button7.TabIndex = 8;
@@ -167,7 +175,7 @@
             this.button4.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button4.BackgroundImage")));
             this.button4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Location = new System.Drawing.Point(922, 551);
+            this.button4.Location = new System.Drawing.Point(512, 971);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(24, 24);
             this.button4.TabIndex = 4;
@@ -217,9 +225,9 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.Black;
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pictureBox1.Location = new System.Drawing.Point(0, 540);
+            this.pictureBox1.Location = new System.Drawing.Point(0, 960);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(958, 48);
+            this.pictureBox1.Size = new System.Drawing.Size(548, 48);
             this.pictureBox1.TabIndex = 9;
             this.pictureBox1.TabStop = false;
             // 
@@ -228,7 +236,7 @@
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Impact", 36F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(601, 473);
+            this.label2.Location = new System.Drawing.Point(191, 893);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(345, 60);
             this.label2.TabIndex = 13;
@@ -273,7 +281,7 @@
             this.label6.BackColor = System.Drawing.Color.Black;
             this.label6.Font = new System.Drawing.Font("Arial", 17.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(6, 551);
+            this.label6.Location = new System.Drawing.Point(6, 971);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(48, 27);
             this.label6.TabIndex = 17;
@@ -346,13 +354,103 @@
             this.progressBar3.Step = 1;
             this.progressBar3.TabIndex = 24;
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(13, 596);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(64, 13);
+            this.label12.TabIndex = 26;
+            this.label12.Text = "AdwCleaner";
+            // 
+            // button11
+            // 
+            this.button11.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button11.BackgroundImage")));
+            this.button11.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button11.FlatAppearance.BorderSize = 0;
+            this.button11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button11.Location = new System.Drawing.Point(18, 546);
+            this.button11.Name = "button11";
+            this.button11.Size = new System.Drawing.Size(48, 48);
+            this.button11.TabIndex = 25;
+            this.button11.UseVisualStyleBackColor = true;
+            this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // progressBar4
+            // 
+            this.progressBar4.Location = new System.Drawing.Point(18, 583);
+            this.progressBar4.Name = "progressBar4";
+            this.progressBar4.Size = new System.Drawing.Size(48, 10);
+            this.progressBar4.Step = 1;
+            this.progressBar4.TabIndex = 27;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 668);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(76, 13);
+            this.label13.TabIndex = 29;
+            this.label13.Text = "Task Manager";
+            // 
+            // button12
+            // 
+            this.button12.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button12.BackgroundImage")));
+            this.button12.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button12.FlatAppearance.BorderSize = 0;
+            this.button12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button12.Location = new System.Drawing.Point(18, 617);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(48, 48);
+            this.button12.TabIndex = 28;
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(25, 740);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(35, 13);
+            this.label14.TabIndex = 31;
+            this.label14.Text = "Rufus";
+            // 
+            // button13
+            // 
+            this.button13.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("button13.BackgroundImage")));
+            this.button13.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.button13.FlatAppearance.BorderSize = 0;
+            this.button13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button13.Location = new System.Drawing.Point(18, 689);
+            this.button13.Name = "button13";
+            this.button13.Size = new System.Drawing.Size(48, 48);
+            this.button13.TabIndex = 30;
+            this.button13.UseVisualStyleBackColor = true;
+            this.button13.Click += new System.EventHandler(this.button13_Click);
+            // 
+            // progressBar5
+            // 
+            this.progressBar5.Location = new System.Drawing.Point(18, 727);
+            this.progressBar5.Name = "progressBar5";
+            this.progressBar5.Size = new System.Drawing.Size(48, 10);
+            this.progressBar5.Step = 1;
+            this.progressBar5.TabIndex = 32;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(958, 588);
+            this.ClientSize = new System.Drawing.Size(548, 1008);
+            this.Controls.Add(this.progressBar5);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.button13);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.button12);
+            this.Controls.Add(this.progressBar4);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.button11);
             this.Controls.Add(this.progressBar3);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.button10);
@@ -421,6 +519,14 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Button button10;
         private System.Windows.Forms.ProgressBar progressBar3;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.ProgressBar progressBar4;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button button12;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Button button13;
+        private System.Windows.Forms.ProgressBar progressBar5;
     }
 }
 
