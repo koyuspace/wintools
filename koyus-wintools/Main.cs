@@ -12,7 +12,7 @@ namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 5;
+        int version = 6;
         Process p;
         string temppath;
         bool koyuspaceinstalled = false;
@@ -379,7 +379,7 @@ namespace koyus_wintools
             if (!rufusdownloaded)
             {
                 WebClient client = new WebClient();
-                Uri uri = new Uri("https://github.com/pbatard/rufus/releases/download/v3.13/rufus-3.13.exe");
+                Uri uri = new Uri("https://content.koyu.space/rufus.exe");
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed5);
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback5);
                 client.DownloadFileAsync(uri, Path.Combine(temppath + "\\rufus.exe"));
