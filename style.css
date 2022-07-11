@@ -1,0 +1,22 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 11pt;
+}
+
+h1, h2, h3 {
+    font-weight: 300;
+}
+
+@media (min-width:800px) {
+    body {
+        width: 50%;
+        margin: 0 auto;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #333;
+        color: #fff;
+    }
+}
