@@ -13,11 +13,10 @@ namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 7;
+        int version = 8;
         Process p;
         string temppath;
         bool mctdownloaded = false;
-        bool dutdownloaded = false;
         bool adwdownloaded = false;
         bool rufusdownloaded = false;
         Downloading downloading = new Downloading();
@@ -42,11 +41,6 @@ namespace koyus_wintools
             while (Directory.Exists(fullPath));
 
             return fullPath;
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Process.Start("https://duckduckgo.com");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -177,42 +171,6 @@ namespace koyus_wintools
         private void timer2_Tick(object sender, EventArgs e)
         {
             this.SendToBack();
-        }
-
-        private void button10_Click(object sender, EventArgs e)
-        {
-            if (!dutdownloaded)
-            {
-                WebClient client = new WebClient();
-                Uri uri = new Uri("https://updates.koyu.space/wintools/wushowhide.diagcab");
-                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed3);
-                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback3);
-                client.DownloadFileAsync(uri, Path.Combine(temppath + "\\wushowhide.diagcab"));
-            }
-            else
-            {
-                try
-                {
-                    Process.Start(Path.Combine(temppath + "\\wushowhide.diagcab"));
-                }
-                catch { }
-            }
-        }
-
-        private void DownloadProgressCallback3(object sender, DownloadProgressChangedEventArgs e)
-        {
-            progressBar3.Value = e.ProgressPercentage;
-        }
-
-        private void Completed3(object sender, AsyncCompletedEventArgs e)
-        {
-            try
-            {
-                dutdownloaded = true;
-                progressBar3.Value = 100;
-                Process.Start(Path.Combine(temppath + "\\wushowhide.diagcab"));
-            }
-            catch { }
         }
 
         private void button11_Click(object sender, EventArgs e)
