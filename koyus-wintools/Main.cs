@@ -7,89 +7,26 @@ using System.IO.Compression;
 using System.Threading;
 using System.ComponentModel;
 using System.Drawing;
+using Octokit;
 
 namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 6;
+        int version = 7;
         Process p;
         string temppath;
-        bool koyuspaceinstalled = false;
         bool mctdownloaded = false;
         bool dutdownloaded = false;
         bool adwdownloaded = false;
         bool rufusdownloaded = false;
+        Downloading downloading = new Downloading();
 
         public Main()
         {
             InitializeComponent();
-            this.StartPosition = FormStartPosition.Manual;
-            this.Location = new Point(0, Screen.PrimaryScreen.Bounds.Height - this.Height);
-            this.WindowState = FormWindowState.Minimized;
-            label1.Text = DateTime.Now.ToString("HH:mm");
-            if (File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Programs\\koyuspace-desktop\\koyu.space.exe")))
-            {
-                koyuspaceinstalled = true;
-                progressBar1.Value = 100;
-            }
-            try
-            {
-                int remoteversion = Convert.ToInt32(new WebClient().DownloadString("https://updates.koyu.space/wintools/latest").Split('\n')[0]);
-                if (remoteversion == version)
-                {
-                    // Download the WinTools
-                    temppath = GetRandomTempPath();
-                    Directory.CreateDirectory(temppath);
-                    new WebClient().DownloadFile("https://updates.koyu.space/wintools/wintools.zip", Path.Combine(temppath + "\\wintools.zip"));
-                    ZipFile.ExtractToDirectory(Path.Combine(temppath + "\\wintools.zip"), temppath);
-                    //Ask the user before running WinTools
-                    if (MessageBox.Show("The WinTools are now downloaded. Do you want to open them?\n\nWarning: This will kill all processes and enter the WinTools mode.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        // Kill explorer so we get a clean working environment
-                        Process.Start("taskkill", "/IM explorer.exe /f");
-                        // Also kill every browser as the user may have downloaded the file from the internet
-                        Process.Start("taskkill", "/IM iexplore.exe /f");
-                        Process.Start("taskkill", "/IM firefox.exe /f");
-                        Process.Start("taskkill", "/IM chrome.exe /f");
-                        Thread.Sleep(500);
-                        this.WindowState = FormWindowState.Maximized;
-                        ChangeVisibility(false);
-                        this.Visible = true;
-                        Thread.Sleep(1000);
-                        ChangeVisibility(true);
-                        timer2.Enabled = true;
-                    }
-                    else
-                    {
-                        // Clean up if the user says no
-                        try
-                        {
-                            Directory.Delete(temppath, true);
-                        }
-                        catch { }
-                        try
-                        {
-                            Directory.Delete(temppath);
-                        }
-                        catch { }
-                        Environment.Exit(0);
-                    }
-                }
-                else
-                {
-                    if (MessageBox.Show("New version available. Download now?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        Process.Start("https://updates.koyu.space/wintools/wintools.exe");
-                    }
-                    Environment.Exit(0);
-                }
-            }
-            catch
-            {
-                MessageBox.Show("No internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Environment.Exit(0);
-            }
+            this.Hide();
+            downloading.Show();
         }
 
         string GetRandomTempPath()
@@ -109,41 +46,12 @@ namespace koyus_wintools
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (!koyuspaceinstalled)
-            {
-                WebClient client = new WebClient();
-                Uri uri = new Uri("https://updates.koyu.space/desktop/desktop.exe");
-                client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed);
-                client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback);
-                client.DownloadFileAsync(uri, Path.Combine(temppath + "\\desktop.exe"));
-            }
-            else
-            {
-                try
-                {
-                    Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Programs\\koyuspace-desktop\\koyu.space.exe"));
-                }
-                catch
-                {
-                    Console.WriteLine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Programs\\koyuspace-desktop\\koyu.space.exe"));
-                }
-            }
+            Process.Start("start", "https://koyu.space");
         }
 
         private void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
         {
             progressBar1.Value = e.ProgressPercentage;
-        }
-
-        private void Completed(object sender, AsyncCompletedEventArgs e)
-        {
-            try
-            {
-                Process.Start(Path.Combine(temppath + "\\desktop.exe"));
-                progressBar1.Value = 100;
-                koyuspaceinstalled = true;
-            }
-            catch { }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -212,7 +120,8 @@ namespace koyus_wintools
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed2);
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback2);
                 client.DownloadFileAsync(uri, Path.Combine(temppath + "\\MediaCreationTool.exe"));
-            } else
+            }
+            else
             {
                 try
                 {
@@ -378,8 +287,12 @@ namespace koyus_wintools
         {
             if (!rufusdownloaded)
             {
+                Octokit.ProductHeaderValue productInformation = new Octokit.ProductHeaderValue("koyuswintools");
+                GitHubClient ghclient = new GitHubClient(productInformation);
+                var releases = ghclient.Repository.Release.GetAll("pbatard", "rufus").Result;
+                string latestrufus = releases[0].TagName.Replace("v", "");
                 WebClient client = new WebClient();
-                Uri uri = new Uri("https://content.koyu.space/rufus.exe");
+                Uri uri = new Uri($"https://github.com/pbatard/rufus/releases/download/v{latestrufus}/rufus-{latestrufus}.exe");
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed5);
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback5);
                 client.DownloadFileAsync(uri, Path.Combine(temppath + "\\rufus.exe"));
@@ -408,6 +321,76 @@ namespace koyus_wintools
                 Process.Start(Path.Combine(temppath + "\\rufus.exe"));
             }
             catch { }
+        }
+
+        private void timer3_Tick(object sender, EventArgs e)
+        {
+            timer3.Enabled = false;
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new Point(0, Screen.PrimaryScreen.Bounds.Height - this.Height);
+            this.WindowState = FormWindowState.Minimized;
+            label1.Text = DateTime.Now.ToString("HH:mm");
+            try
+            {
+                int remoteversion = Convert.ToInt32(new WebClient().DownloadString("https://updates.koyu.space/wintools/latest").Split('\n')[0]);
+                if (remoteversion == version)
+                {
+                    // Download the WinTools
+                    temppath = GetRandomTempPath();
+                    Directory.CreateDirectory(temppath);
+                    new WebClient().DownloadFile("https://updates.koyu.space/wintools/wintools.zip", Path.Combine(temppath + "\\wintools.zip"));
+                    ZipFile.ExtractToDirectory(Path.Combine(temppath + "\\wintools.zip"), temppath);
+                    // Close download window
+                    downloading.Close();
+                    //Ask the user before running WinTools
+                    if (MessageBox.Show("The WinTools are now downloaded. Do you want to open them?\n\nWarning: This will kill all processes and enter the WinTools mode.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        // Kill explorer so we get a clean working environment
+                        Process.Start("taskkill", "/IM explorer.exe /f");
+                        // Also kill every browser as the user may have downloaded the file from the internet
+                        Process.Start("taskkill", "/IM iexplore.exe /f");
+                        Process.Start("taskkill", "/IM firefox.exe /f");
+                        Process.Start("taskkill", "/IM chrome.exe /f");
+                        Thread.Sleep(500);
+                        this.WindowState = FormWindowState.Maximized;
+                        ChangeVisibility(false);
+                        this.Visible = true;
+                        Thread.Sleep(1000);
+                        ChangeVisibility(true);
+                        timer2.Enabled = true;
+                    }
+                    else
+                    {
+                        // Clean up if the user says no
+                        try
+                        {
+                            Directory.Delete(temppath, true);
+                        }
+                        catch { }
+                        try
+                        {
+                            Directory.Delete(temppath);
+                        }
+                        catch { }
+                        Environment.Exit(0);
+                    }
+                }
+                else
+                {
+                    downloading.Close();
+                    if (MessageBox.Show("New version available. Download now?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        Process.Start("https://updates.koyu.space/wintools/wintools.exe");
+                    }
+                    Environment.Exit(0);
+                }
+            }
+            catch
+            {
+                downloading.Close();
+                MessageBox.Show("No internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
         }
     }
 }
