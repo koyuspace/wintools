@@ -1,6 +1,9 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-size: 11pt;
+    color: #333;
+    background: #fff;
+    padding-top: 20px;
 }
 
 h1, h2, h3 {
@@ -16,20 +19,26 @@ h1, h2, h3 {
 
 @media (prefers-color-scheme: dark) {
     body {
-        background: #333;
+        background: rgb(42,40,54);
         color: #fff;
     }
 }
 
-.message {
-	background: #f2edce;
-	padding: 10px;
-	border: 1px solid #aaa;
-	border-radius: 4px;
-	color: #333;
-	margin-top: 20px;
+button {
+    background: rgb(82,80,94);
+    color: #fff;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin-right: 8px;
 }
 
-.message a {
-	color: #333;
+button:hover {
+    background: rgb(102,100,114);
+    color: #fff;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin-right: 8px;
+    cursor: pointer;
 }

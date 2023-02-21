@@ -6,15 +6,13 @@
         <title>koyu's wintools</title>
         <script src="app.js"></script>
         <script type="module" src="https://unpkg.com/@fluentui/web-components"></script>
-        <link rel="shortcut icon" href="toolbox.ico">
+        <link rel="shortcut icon" href="tool.ico">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css" integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY=" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-		<div class="message"><b>Note:</b> This tool has been deprecated in favour of <a href="https://archive.org/details/tiny-11_202302" target="_blank">Tiny11</a></div>
-		<br>
-        <h1><img src="toolbox.ico" height="64" style="vertical-align: middle;" alt="Toolbox icon">koyu's wintools</h1>
-        <p>This toolbox includes a collection scripts, how-to's, registry keys and applications. It allows you to</p>
+        <h1><img src="tool.ico" height="64" style="vertical-align: middle;margin-top: -8px;" alt="Tool icon">koyu's wintools</h1>
+        <p>This tool includes a collection scripts, how-to's, registry keys and applications. It allows you to</p>
         <ul>
             <li>Remove unwanted apps</li>
             <li>Remove Microsoft Edge and Windows Connect</li>
@@ -29,8 +27,8 @@
             <li>Reinstall or upgrade Windows</li>
             <li>...and much more</li>
         </ul>
-        <fluent-button appearance="accent" onclick="download()"><i class="fa fa-download" aria-hidden="true"></i> Download now</fluent-button>
-        <fluent-button appearance="accent" onclick="github()"><i class="fa fa-github" aria-hidden="true"></i> Source code</fluent-button>
+        <button onclick="download()"><i class="fa fa-download" aria-hidden="true"></i> Download now</button>
+        <button onclick="github()"><i class="fa fa-github" aria-hidden="true"></i> Source code</button>
         <br>
         <p><small>&copy; koyu.space 2022</small></p>
     </body>
