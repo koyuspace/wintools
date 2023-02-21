@@ -13,7 +13,7 @@ namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 8;
+        int version = 9;
         Process p;
         string temppath;
         bool mctdownloaded = false;
@@ -23,9 +23,9 @@ namespace koyus_wintools
 
         public Main()
         {
+            temppath = GetRandomTempPath();
             InitializeComponent();
             this.Hide();
-            downloading.Show();
         }
 
         string GetRandomTempPath()
@@ -266,52 +266,20 @@ namespace koyus_wintools
                 int remoteversion = Convert.ToInt32(new WebClient().DownloadString("https://updates.koyu.space/wintools/latest").Split('\n')[0]);
                 if (remoteversion == version)
                 {
+                    // Show download window
+                    downloading.Show();
                     // Download the WinTools
-                    temppath = GetRandomTempPath();
                     Directory.CreateDirectory(temppath);
-                    new WebClient().DownloadFile("https://updates.koyu.space/wintools/wintools.zip", Path.Combine(temppath + "\\wintools.zip"));
-                    ZipFile.ExtractToDirectory(Path.Combine(temppath + "\\wintools.zip"), temppath);
-                    // Close download window
-                    downloading.Close();
-                    //Ask the user before running WinTools
-                    if (MessageBox.Show("The WinTools are now downloaded. Do you want to open them?\n\nWarning: This will kill all processes and enter the WinTools mode.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                    {
-                        // Kill explorer so we get a clean working environment
-                        Process.Start("taskkill", "/IM explorer.exe /f");
-                        // Also kill every browser as the user may have downloaded the file from the internet
-                        Process.Start("taskkill", "/IM iexplore.exe /f");
-                        Process.Start("taskkill", "/IM firefox.exe /f");
-                        Process.Start("taskkill", "/IM chrome.exe /f");
-                        Thread.Sleep(500);
-                        this.WindowState = FormWindowState.Maximized;
-                        ChangeVisibility(false);
-                        this.Visible = true;
-                        Thread.Sleep(1000);
-                        ChangeVisibility(true);
-                        timer2.Enabled = true;
-                    }
-                    else
-                    {
-                        // Clean up if the user says no
-                        try
-                        {
-                            Directory.Delete(temppath, true);
-                        }
-                        catch { }
-                        try
-                        {
-                            Directory.Delete(temppath);
-                        }
-                        catch { }
-                        Environment.Exit(0);
-                    }
+                    WebClient client = new WebClient();
+                    client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed6);
+                    client.DownloadFileAsync(new Uri("https://updates.koyu.space/wintools/wintools.zip"), Path.Combine(temppath + "\\wintools.zip"));
                 }
                 else
                 {
                     downloading.Close();
                     if (MessageBox.Show("New version available. Download now?", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-                        Process.Start("https://updates.koyu.space/wintools/wintools.exe");
+                        Process.Start(new ProcessStartInfo("https://updates.koyu.space/wintools/wintools.exe") { UseShellExecute = true });
                     }
                     Environment.Exit(0);
                 }
@@ -320,6 +288,46 @@ namespace koyus_wintools
             {
                 downloading.Close();
                 MessageBox.Show("No internet connection.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
+        }
+
+        private void Completed6(object sender, AsyncCompletedEventArgs e)
+        {
+            // Extract files
+            ZipFile.ExtractToDirectory(Path.Combine(temppath + "\\wintools.zip"), temppath);
+            // Close download window
+            downloading.Close();
+            //Ask the user before running WinTools
+            if (MessageBox.Show("The WinTools are now downloaded. Do you want to open them?\n\nWarning: This will kill all processes and enter the WinTools mode.", "Info", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            {
+                // Kill explorer so we get a clean working environment
+                Process.Start("taskkill", "/IM explorer.exe /f");
+                // Also kill every browser as the user may have downloaded the file from the internet
+                Process.Start("taskkill", "/IM iexplore.exe /f");
+                Process.Start("taskkill", "/IM firefox.exe /f");
+                Process.Start("taskkill", "/IM chrome.exe /f");
+                Thread.Sleep(500);
+                this.WindowState = FormWindowState.Maximized;
+                ChangeVisibility(false);
+                this.Visible = true;
+                Thread.Sleep(1000);
+                ChangeVisibility(true);
+                timer2.Enabled = true;
+            }
+            else
+            {
+                // Clean up if the user says no
+                try
+                {
+                    Directory.Delete(temppath, true);
+                }
+                catch { }
+                try
+                {
+                    Directory.Delete(temppath);
+                }
+                catch { }
                 Environment.Exit(0);
             }
         }
