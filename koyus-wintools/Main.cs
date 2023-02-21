@@ -1,13 +1,13 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Net;
-using System.IO;
-using System.Diagnostics;
-using System.IO.Compression;
-using System.Threading;
+﻿using Octokit;
+using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
-using Octokit;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace koyus_wintools
 {
@@ -42,16 +42,6 @@ namespace koyus_wintools
             while (Directory.Exists(fullPath));
 
             return fullPath;
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            Process.Start("start", "https://koyu.space");
-        }
-
-        private void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
-        {
-            progressBar1.Value = e.ProgressPercentage;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -145,23 +135,6 @@ namespace koyus_wintools
         private void DownloadProgressCallback2(object sender, DownloadProgressChangedEventArgs e)
         {
             progressBar2.Value = e.ProgressPercentage;
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Directory.Delete(temppath, true);
-            }
-            catch { }
-            try
-            {
-                Directory.Delete(temppath);
-            }
-            catch { }
-            Thread.Sleep(500);
-            Process.Start("shutdown", "/r /t 0");
-            Environment.Exit(0);
         }
 
         private void timer1_Tick(object sender, EventArgs e)
