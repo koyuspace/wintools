@@ -13,7 +13,7 @@ namespace koyus_wintools
 {
     public partial class Main : Form
     {
-        int version = 9;
+        int version = 10;
         Process p;
         string temppath;
         bool mctdownloaded = false;
@@ -41,6 +41,20 @@ namespace koyus_wintools
             while (Directory.Exists(fullPath));
 
             return fullPath;
+        }
+        public void ExecuteScript(string pathToScript)
+        {
+            var scriptArguments = "-ExecutionPolicy Bypass -File \"" + pathToScript + "\"";
+            var processStartInfo = new ProcessStartInfo("powershell.exe", scriptArguments);
+            processStartInfo.RedirectStandardOutput = true;
+            processStartInfo.RedirectStandardError = true;
+
+            using var process = new Process();
+            process.StartInfo = processStartInfo;
+            process.Start();
+            string output = process.StandardOutput.ReadToEnd();
+            string error = process.StandardError.ReadToEnd();
+            Console.WriteLine(output); // I am invoked using ProcessStartInfoClass!
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -100,7 +114,7 @@ namespace koyus_wintools
             if (!mctdownloaded)
             {
                 WebClient client = new WebClient();
-                Uri uri = new Uri("https://go.microsoft.com/fwlink/?LinkId=691209");
+                Uri uri = new Uri("https://go.microsoft.com/fwlink/?linkid=2156295");
                 client.DownloadFileCompleted += new AsyncCompletedEventHandler(Completed2);
                 client.DownloadProgressChanged += new DownloadProgressChangedEventHandler(DownloadProgressCallback2);
                 client.DownloadFileAsync(uri, Path.Combine(temppath + "\\MediaCreationTool.exe"));
@@ -330,6 +344,16 @@ namespace koyus_wintools
                 catch { }
                 Environment.Exit(0);
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string massgravedl = Path.Join(temppath, ".\\massgrave.ps1");
+                new WebClient().DownloadFile("https://massgrave.dev/get", massgravedl);
+                ExecuteScript(massgravedl);
+            } catch { }
         }
     }
 }
